@@ -1,10 +1,12 @@
 # Python Modules and Packages
 from .battery import BatteryTool
 from .cleanup import CleanupTool
+from .hardware import HardwareTool
 from .helpers import run_menu
 from .memory import MemoryTool
 from .network import NetworkTool
 from .storage import SettingsStore
+from .terminal import console_text, new_badge
 
 
 # Python OOP - Classes
@@ -15,6 +17,7 @@ class ToolkitApp:
         self.network = NetworkTool(self.store)
         self.battery = BatteryTool(self.store)
         self.memory = MemoryTool(self.store)
+        self.hardware = HardwareTool()
 
     def run(self, admin_action=None):
         print("System Toolkit for Windows 10/11")
@@ -28,6 +31,7 @@ class ToolkitApp:
             "2": ("Network optimization", self.network.run),
             "3": ("Laptop battery optimization", self.battery.run),
             "4": ("RAM cleanup", self.memory.run),
+            "5": (f"{console_text('PC Parts & Health', 'PC Parts & Health')} {new_badge()}", self.hardware.run),
         }
         admin_actions = {
             "dns-change": self.network.change_dns,
@@ -35,6 +39,6 @@ class ToolkitApp:
             "dns-restore": self.network.restore_dns,
             "dns-cache": self.network.refresh_dns_cache,
         }
-        run_menu("SYSTEM TOOLKIT", actions, back_key="5", back_label="Exit",
+        run_menu("SYSTEM TOOLKIT", actions, back_key="6", back_label="Exit",
                  initial_action=admin_actions.get(admin_action))
         print("Goodbye.")
